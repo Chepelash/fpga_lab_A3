@@ -1,20 +1,20 @@
 module deserializer_tb;
 
 parameter int CLK_T = 1000;
-parameter int WIDTH = 16;
+parameter int WIDTH = 8;
 
-logic        clk;
-logic        rst;
+logic             clk;
+logic             rst;
 
-logic        data_i;
-logic        data_val_i;
-logic [15:0] deser_data_o;
-logic        deser_data_val_o;
+logic             data_i;
+logic             data_val_i;
+logic [WIDTH-1:0] deser_data_o;
+logic             deser_data_val_o;
 
 
-bit   [15:0] input_values[$];
-bit   [15:0] output_value;
-int          cntr;
+bit   [WIDTH-1:0] input_values[$];
+bit   [WIDTH-1:0] output_value;
+int               cntr;
 
 
 task automatic clk_gen;
@@ -45,6 +45,14 @@ task automatic apply_valid_input;
 endtask
 
 
+task automatic init_queue_values;
+
+  for( int i = 0; i < ( 2**WIDTH ); i++ )
+    input_values.push_back(i);
+
+endtask
+
+
 deserializer #(
   .WIDTH            ( WIDTH            )
 ) deserializer_1    (
@@ -67,9 +75,9 @@ always
 
   
 initial
-  begin
-  
-    input_values = {'b1011_0111_1110_0100, 'b0010_0001_0110_0111, 'b1110_1001_1101_0011};
+  begin  
+    
+    init_queue_values();
     
     clk <= 0;
     rst <= 0;
@@ -78,9 +86,9 @@ initial
     
     apply_rst();
     
-    for( int i = 0; i < 3; i++ )
+    for( int i = 0; i < ( 2**WIDTH ); i++ )
       begin
-        for( int cntr = 15; cntr >= 0; cntr-- )
+        for( int cntr = ( WIDTH - 1 ); cntr >= 0; cntr-- )
           begin
             data_i     <= input_values[i][cntr];
             data_val_i <= 1'b1;
