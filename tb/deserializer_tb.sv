@@ -1,7 +1,7 @@
 module deserializer_tb;
 
 parameter int CLK_T = 1000;
-parameter int WIDTH = 8;
+parameter int WIDTH = 16;
 
 logic             clk;
 logic             rst;
@@ -19,8 +19,11 @@ int               cntr;
 
 task automatic clk_gen;
 
-  # ( CLK_T / 2 );
-  clk <= ~clk;
+  forever
+    begin
+      # ( CLK_T / 2 );
+      clk <= ~clk;
+    end
   
 endtask
 
@@ -67,12 +70,6 @@ deserializer #(
 );
 
 
-
-always
-  begin
-    clk_gen();    
-  end
-
   
 initial
   begin  
@@ -81,6 +78,10 @@ initial
     
     clk <= 0;
     rst <= 0;
+    
+    fork
+      clk_gen();
+    join_none
     
     $display("Starting!\n");
     
@@ -94,8 +95,8 @@ initial
             data_val_i <= 1'b1;
             @( posedge clk );            
           end
-//        wait_for_data();
-	      @( posedge deser_data_val_o );
+
+        @( posedge deser_data_val_o );
         if( deser_data_o == input_values[i] )
           begin
             $display("OK! Input val = %16b; output val = %16b;", 
