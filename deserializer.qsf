@@ -39,7 +39,7 @@
 set_global_assignment -name NUM_PARALLEL_PROCESSORS ALL
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEBA4U19C8
-set_global_assignment -name TOP_LEVEL_ENTITY deserializer
+set_global_assignment -name TOP_LEVEL_ENTITY deserializer_wrap
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 18.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:11:35  MARCH 27, 2019"
 set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Lite Edition"
@@ -52,6 +52,7 @@ set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "SYSTEMVERILOG HDL" -section_id eda_simulation
 
 set_global_assignment -name SYSTEMVERILOG_FILE src/deserializer.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/deserializer_wrap.sv
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
