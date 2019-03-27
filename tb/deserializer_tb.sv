@@ -1,6 +1,7 @@
 module deserializer_tb;
 
 parameter int CLK_T = 1000;
+parameter int WIDTH = 16;
 
 logic        clk;
 logic        rst;
@@ -11,9 +12,10 @@ logic [15:0] deser_data_o;
 logic        deser_data_val_o;
 
 
-bit [15:0] input_values[$];
-bit [15:0] output_value;
-int cntr;
+bit   [15:0] input_values[$];
+bit   [15:0] output_value;
+int          cntr;
+
 
 task automatic clk_gen;
 
@@ -42,17 +44,10 @@ task automatic apply_valid_input;
 
 endtask
 
-task automatic wait_for_data;
-  repeat(16)
-    begin
-      @( posedge clk );
-    end
-  
-endtask
 
-
-deserializer
-  deserializer_1    (
+deserializer #(
+  .WIDTH            ( WIDTH            )
+) deserializer_1    (
   .clk_i            ( clk              ),
   .srst_i           ( rst              ),
   
